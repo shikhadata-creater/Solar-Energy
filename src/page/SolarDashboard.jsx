@@ -5,7 +5,7 @@ import Sidebar from "../components/Sidebar";
 import MapView from "../components/MapView";
 import DataTable from "../components/DataTable";
 import Footer from "../components/Footer";
-
+import config from "../config";
 
 const SolarDashboard = () => {
   const [selectedLayer, setSelectedLayer] = useState("Solar:upneda");
@@ -21,13 +21,14 @@ const [selectedFeatureId, setSelectedFeatureId] = useState(null);
 
 useEffect(() => {
   const layers = [
-    "Solar:upneda",
-    "Solar:solar",
+    "Solar:UPNEDA",
+    "Solar:Solar",
     "Solar:BIO ENERGY PROJECTS 2024",
     "Solar:GeoTagged Solar Power Plants V3",
-    "Solar:ON GRID SOLAR POWER PLANT 2024",
-    "Solar:SMART SOLAR STREET LIGHT 2024",
-    "Solar:offgrid solar plant"
+    "Solar:On Grid Solar Power Plant 2024",
+    "Solar:Smart Solar Street Light 2024",
+    "Solar:Solar High Mast 2024",
+    "Solar:Offgrid solar plant"
   ];
 
   const fetchData = async () => {
@@ -36,7 +37,7 @@ useEffect(() => {
 
     for (const layer of layers) {
       try {
-        const url = `http://localhost:8080/geoserver/ows?service=WFS&request=GetFeature&typeName=${layer}&outputFormat=application/json`;
+        const url = `${config.GEOSERVER_URL}/ows?service=WFS&request=GetFeature&typeName=${layer}&outputFormat=application/json`;
 
         const res = await fetch(url);
         const data = await res.json();
@@ -54,20 +55,29 @@ features.forEach(f => {
 
   let cap = 0;
 
-  // 🔥 LAYER-WISE FIX
+  // 🔥 capacity calculation LAYER-WISE FIX
   if (layer === "Solar:BIO ENERGY PROJECTS 2024" ) {
-    cap = props["capacity o"];   // ✔ your actual column
+    cap = props["capacity o"]||props.capacity;   // ✔ your actual column
   }
-  else if (layer === "Solar:offgrid solar plant") {
-    cap = props["capacity o"];   // ✔ your actual column
+  else if (layer === "Solar:UPNEDA") {
+    cap = props["Capacity"]||props.capacity;   // ✔ your actual column
+  }
+  else if (layer === "Solar:Offgrid solar plant") {
+    cap = props["capacity o"]||props.capacity;   // ✔ your actual column
   }
   else if (layer === "Solar:GeoTagged Solar Power Plants V3") {
-    cap = props["capacity (in kW)"]|| props.capacity;     // adjust if needed
+    cap = props["Capacity (in kW)"]|| props.capacity;     // adjust if needed
   }
   else if (layer === "Solar:ON GRID SOLAR POWER PLANT 2024") {
     cap = props["Capacity of Plant (KW)"] || props.capacity;
   }
-  else if (layer === "Solar:solar") {
+  else if (layer === "Solar:Solar High Mast 2024") {
+    cap = props["Capacity of Plant (KW)"] || props.capacity;
+  }
+  else if (layer === "Solar:Smart Solar Street Light 2024") {
+    cap = props["Capacity of Plant (KW)"] || props.capacity;
+  }
+  else if (layer === "Solar:Solar") {
     cap = props["area (sqr. mt.)"] || props.area;
   }
   else {
@@ -88,11 +98,27 @@ features.forEach(f => {
 });
         capacityResults[layer] = totalCap;
 
-      } catch (err) {
-        countResults[layer] = 0;
-        capacityResults[layer] = 0;
-      }
+          } catch (err) {
+            console.error("Summary fetch failed:", layer, err);
+            countResults[layer] = 0;
+            capacityResults[layer] = 0;
+          }
     }
+
+const totalCount = Object.values(countResults)
+  .reduce((sum, val) => sum + (Number(val) || 0), 0);
+
+const totalCapacity = Object.values(capacityResults)
+  .reduce((sum, val) => {
+    return typeof val === "number"
+      ? sum + val
+      : sum;
+  }, 0);
+
+// ✅ add total row
+countResults["TOTAL"] = totalCount;
+capacityResults["TOTAL"] = totalCapacity;
+
 
     setSummaryData(countResults);
     setCapacityData(capacityResults);
