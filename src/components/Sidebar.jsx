@@ -20,13 +20,14 @@ const Sidebar = ({
   // const [showTransparency, setShowTransparency] = useState(false);
 
   const layers = [
-    "Solar:upneda",
-    "Solar:solar",
+    "Solar:UPNEDA",
+    "Solar:Solar",
     "Solar:BIO ENERGY PROJECTS 2024",
     "Solar:GeoTagged Solar Power Plants V3",
-    "Solar:ON GRID SOLAR POWER PLANT 2024",
-    "Solar:SMART SOLAR STREET LIGHT 2024",
-     "Solar:offgrid solar plant"
+    "Solar:On Grid Solar Power Plant 2024",
+     "Solar:Smart Solar Street Light 2024",
+     "Solar:Solar High Mast 2024",
+     "Solar:Offgrid solar plant"
   ];
 
 const gridStyle = {
@@ -194,7 +195,7 @@ style={{ accentColor: "green" , background: baseMap === item.value ? "#1d4ed8" :
 justifyContent: "space-between", // 🔥 pushes arrow right
     alignItems: "center",
     cursor: "pointer",
-   
+
    fontSize: "14px",
   marginTop: "10px",
  
@@ -203,6 +204,8 @@ justifyContent: "space-between", // 🔥 pushes arrow right
    <span>{showSolarLayers_Summary ? "▼" : "▶"}</span>
 </div>
 {showSolarLayers_Summary && (
+
+  
 <div style={{
   display: "grid",
   gridTemplateColumns: "1fr 1fr",
@@ -216,27 +219,27 @@ justifyContent: "space-between", // 🔥 pushes arrow right
   <div style={cardStyle}>
     <div style={labelStyle}>UPNEDA</div>
     <div style={valueStyle}>
-      {summaryData?.["Solar:upneda"] || 0}
+      {summaryData?.["Solar:UPNEDA"] || 0}
     </div>
   </div>
 
   <div style={cardStyle}>
     <div style={labelStyle}>Capacity</div>
     <div style={valueStyle}>
-      {(CapacityData?.["Solar:upneda"] || 0).toFixed(3)} KW
+      {Number(CapacityData?.["Solar:UPNEDA"] || 0).toFixed(3)} KW
     </div>
   </div>
 <div style={cardStyle}>
     <div style={labelStyle}>Airport Panel</div>
     <div style={valueStyle}>
-      {summaryData?.["Solar:solar"] || 0}
+      {summaryData?.["Solar:Solar"] || 0}
     </div>
   </div>
 
   <div style={cardStyle}>
     <div style={labelStyle}>Area</div>
     <div style={valueStyle}>
-      {(CapacityData?.["Solar:solar"] || 0).toFixed(3)} sqr. mt.
+      {(CapacityData?.["Solar:Solar"] || 0).toFixed(3)} sqr. mt.
     </div>
   </div>
   {/* BIO ENERGY */}
@@ -269,57 +272,67 @@ justifyContent: "space-between", // 🔥 pushes arrow right
     </div>
   </div>
 
+{/* SOLAR High Mast 2024 */}
+  <div style={cardStyle}>
+    <div style={labelStyle}>Solar High Mast</div>
+    <div style={valueStyle}>
+      {summaryData?.["Solar:Solar High Mast 2024"] || 0}
+    </div>
+  </div>
+
+  <div style={cardStyle}>
+    <div style={labelStyle}>Capacity</div>
+    <div style={valueStyle}>
+      {(CapacityData?.["Solar:Solar High Mast 2024"] || 0).toFixed(3)} KW
+    </div>
+  </div>
+
   {/* ON GRID */}
   <div style={cardStyle}>
     <div style={labelStyle}>On Grid Solar</div>
     <div style={valueStyle}>
-      {summaryData?.["Solar:ON GRID SOLAR POWER PLANT 2024"] || 0}
+      {summaryData?.["Solar:On Grid Solar Power Plant 2024"] || 0}
     </div>
   </div>
 
   <div style={cardStyle}>
     <div style={labelStyle}>Capacity</div>
     <div style={valueStyle}>
-      {(CapacityData?.["Solar:ON GRID SOLAR POWER PLANT 2024"] || 0).toFixed(3)} KW
+      {(CapacityData?.["Solar:On Grid Solar Power Plant 2024"] || 0).toFixed(3)} KW
     </div>
   </div>
 
- {/* offgrid solar plant */}
+ {/* Offgrid solar plant */}
   <div style={cardStyle}>
     <div style={labelStyle}>Off Grid Solar</div>
     <div style={valueStyle}>
-      {summaryData?.["Solar:offgrid solar plant"] || 0}
+      {summaryData?.["Solar:Offgrid solar plant"] || 0}
     </div>
   </div>
 
   <div style={cardStyle}>
     <div style={labelStyle}>Capacity</div>
     <div style={valueStyle}>
-      {(CapacityData?.["Solar:offgrid solar plant"] || 0).toFixed(3)} KW
+      {(CapacityData?.["Solar:Offgrid solar plant"] || 0).toFixed(3)} KW
     </div>
   </div>
 
 {/* SMART SOLAR STREET LIGHT 2024 */}
-  {/* <div style={cardStyle}>
+   <div style={cardStyle}>
     <div style={labelStyle}>Solar Street Light</div>
     <div style={valueStyle}>
-      {summaryData?.["Solar:SMART SOLAR STREET LIGHT 2024"] || 0}
+      {summaryData?.["Solar:Smart Solar Street Light 2024"] || 0}
     </div>
   </div>
 
   <div style={cardStyle}>
     <div style={labelStyle}>Capacity</div>
     <div style={valueStyle}>
-      {(CapacityData?.["Solar:SMART SOLAR STREET LIGHT 2024"] || 0).toFixed(3)} KW
+      {(CapacityData?.["Solar:Smart Solar Street Light 2024"] || 0).toFixed(3)} KW
     </div>
-  </div> */}
-
+  </div> 
 
 </div>
-
-
-
-
 
 
 

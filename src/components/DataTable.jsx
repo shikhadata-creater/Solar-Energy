@@ -62,6 +62,7 @@ const getRowId = (row, i) =>
     position: "sticky ",
     fontWeight: "bold",  
     width: "100%",
+    left:"0%"
              // ✅ FIXED
     
   }}
@@ -79,6 +80,8 @@ const getRowId = (row, i) =>
       background: "#143658",
       color: "white",
       position: "sticky",
+      left:"2%",
+      width:"108%",
       top: 0,
       zIndex: 2                 // ✅ FIXED (important)
     }}
