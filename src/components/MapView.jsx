@@ -157,16 +157,22 @@ useEffect(() => {
       srsName: "EPSG:4326",
     });
     const url = `${config.GEOSERVER_URL}/ows?${params.toString()}`;
+    console.log("Selected Layer:", selectedLayer);
     console.log("WFS URL:", url);
     fetch(url, { signal: controller.signal })
-      .then((res) => {
-        if (!res.ok) {
-          return res.text().then((text) => {
-            throw new Error("WFS failed: " + text);
-          });
-        }
-        return res.json();
-      })
+     .then(async (res) => {
+  const text = await res.text();
+
+  if (!res.ok) {
+    throw new Error("WFS failed: " + text);
+  }
+
+  if (text.trim().startsWith("<")) {
+    throw new Error("GeoServer returned XML error: " + text);
+  }
+
+  return JSON.parse(text);
+})
       .then((data) => {
         console.log("WFS DATA:", data);
 

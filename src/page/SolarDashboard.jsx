@@ -8,7 +8,7 @@ import Footer from "../components/Footer";
 import config from "../config";
 
 const SolarDashboard = () => {
-  const [selectedLayer, setSelectedLayer] = useState("Solar:upneda");
+  const [selectedLayer, setSelectedLayer] = useState("Solar:UPNEDA");
   const [opacity, setOpacity] = useState(1);
   const [baseMap, setBaseMap] = useState("osm");
   const [tableData, setTableData] = useState([]);
@@ -68,7 +68,7 @@ features.forEach(f => {
   else if (layer === "Solar:GeoTagged Solar Power Plants V3") {
     cap = props["Capacity (in kW)"]|| props.capacity;     // adjust if needed
   }
-  else if (layer === "Solar:ON GRID SOLAR POWER PLANT 2024") {
+  else if (layer === "Solar:On Grid Solar Power Plant 2024") {
     cap = props["Capacity of Plant (KW)"] || props.capacity;
   }
   else if (layer === "Solar:Solar High Mast 2024") {
