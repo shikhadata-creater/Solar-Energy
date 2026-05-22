@@ -16,6 +16,7 @@ const SolarDashboard = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [summaryData, setSummaryData] = useState({});
 const [CapacityData, setCapacityData] = useState({});
+
 const [selectedFeatureId, setSelectedFeatureId] = useState(null);
 
 

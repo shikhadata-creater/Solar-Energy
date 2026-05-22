@@ -51,5 +51,10 @@
   cursor: pointer;
 }
 
-
+.total-card {
+  background: linear-gradient(180deg, #ffd36a, #f59e0b);
+  color: #001f33;
+  font-weight: bold;
+  border: 2px solid #ffffff;
+}
 

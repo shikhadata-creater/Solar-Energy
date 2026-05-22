@@ -81,7 +81,16 @@ const valueStyle = {
       img: "https://basemaps.cartocdn.com/light_all/2/2/1.png"
     }
   ];
+const totalCount = Object.entries(summaryData || {})
+  .filter(([key]) => key !== "TOTAL")
+  .reduce((sum, [, value]) => sum + (Number(value) || 0), 0);
 
+const totalCapacity = Object.entries(CapacityData || {})
+  .filter(([key]) =>
+    key !== "TOTAL" &&
+    key !== "Solar:Solar"
+  )
+  .reduce((sum, [, value]) => sum + (Number(value) || 0), 0);
   return (
     <div style={{
       width: "15%",
@@ -189,154 +198,255 @@ style={{ accentColor: "green" , background: baseMap === item.value ? "#1d4ed8" :
       <hr />
 {/* //----------------summary card------------------------------// */}
 
- <div onClick={() => setShowSolarLayers_Summary(!showSolarLayers_Summary)}
- style={{
- display: "flex",
-justifyContent: "space-between", // 🔥 pushes arrow right
+<div
+  onClick={() =>
+    setShowSolarLayers_Summary(!showSolarLayers_Summary)
+  }
+  style={{
+    display: "flex",
+    justifyContent: "space-between",
     alignItems: "center",
     cursor: "pointer",
-
-   fontSize: "14px",
-  marginTop: "10px",
- 
-}}>
+    fontSize: "14px",
+    marginTop: "10px"
+  }}
+>
   <span>📊 SOLAR SUMMARY</span>
-   <span>{showSolarLayers_Summary ? "▼" : "▶"}</span>
+  <span>{showSolarLayers_Summary ? "▼" : "▶"}</span>
 </div>
+
 {showSolarLayers_Summary && (
+  <div
+    style={{
+      display: "grid",
+      gridTemplateColumns: "1fr 1fr",
+      gap: "10px",
+      marginTop: "10px"
+    }}
+  >
+    <div style={gridStyle}>
 
-  
-<div style={{
-  display: "grid",
-  gridTemplateColumns: "1fr 1fr",
-  gap: "10px",
-  marginTop: "10px"
-}}>
+      {/* TOTAL COUNT */}
+      <div
+        style={{
+          ...cardStyle,
+          background:
+            "linear-gradient(180deg, #ffd36a, #f59e0b)",
+          border: "2px solid #fff"
+        }}
+      >
+        <div style={labelStyle}>Total Count</div>
 
-  <div style={gridStyle}>
+        <div style={valueStyle}>
+          {/* {summaryData?.["TOTAL"] || 0} */}
+          {totalCount}
+        </div>
+      </div>
 
-{/* UPNEDA */}
-  <div style={cardStyle}>
-    <div style={labelStyle}>UPNEDA</div>
-    <div style={valueStyle}>
-      {summaryData?.["Solar:UPNEDA"] || 0}
+      {/* TOTAL CAPACITY */}
+      <div
+        style={{
+          ...cardStyle,
+          background:
+            "linear-gradient(180deg, #ffd36a, #f59e0b)",
+          border: "2px solid #fff"
+        }}
+      >
+        <div style={labelStyle}>Total Capacity</div>
+
+        <div style={valueStyle}>
+          {/* {Number(
+            CapacityData?.["TOTAL"] || 0
+          ).toFixed(3)}{" "} */}
+          {totalCapacity.toFixed(3)}
+          KW
+        </div>
+      </div>
+
+      {/* UPNEDA */}
+      <div style={cardStyle}>
+        <div style={labelStyle}>UPNEDA</div>
+
+        <div style={valueStyle}>
+          {summaryData?.["Solar:UPNEDA"] || 0}
+        </div>
+      </div>
+
+      <div style={cardStyle}>
+        <div style={labelStyle}>Capacity</div>
+
+        <div style={valueStyle}>
+          {Number(
+            CapacityData?.["Solar:UPNEDA"] || 0
+          ).toFixed(3)}{" "}
+          KW
+        </div>
+      </div>
+
+      {/* AIRPORT PANEL */}
+      <div style={cardStyle}>
+        <div style={labelStyle}>Airport Panel</div>
+
+        <div style={valueStyle}>
+          {summaryData?.["Solar:Solar"] || 0}
+        </div>
+      </div>
+
+      <div style={cardStyle}>
+        <div style={labelStyle}>Area</div>
+
+        <div style={valueStyle}>
+          {Number(
+            CapacityData?.["Solar:Solar"] || 0
+          ).toFixed(3)}{" "}
+          sqr. mt.
+        </div>
+      </div>
+
+      {/* BIO ENERGY */}
+      <div style={cardStyle}>
+        <div style={labelStyle}>Bio Energy</div>
+
+        <div style={valueStyle}>
+          {summaryData?.["Solar:BIO ENERGY PROJECTS 2024"] || 0}
+        </div>
+      </div>
+
+      <div style={cardStyle}>
+        <div style={labelStyle}>Capacity</div>
+
+        <div style={valueStyle}>
+          {Number(
+            CapacityData?.[
+              "Solar:BIO ENERGY PROJECTS 2024"
+            ] || 0
+          ).toFixed(3)}{" "}
+          KW
+        </div>
+      </div>
+
+      {/* SOLAR POWER */}
+      <div style={cardStyle}>
+        <div style={labelStyle}>Solar Power Plants</div>
+
+        <div style={valueStyle}>
+          {summaryData?.[
+            "Solar:GeoTagged Solar Power Plants V3"
+          ] || 0}
+        </div>
+      </div>
+
+      <div style={cardStyle}>
+        <div style={labelStyle}>Capacity</div>
+
+        <div style={valueStyle}>
+          {Number(
+            CapacityData?.[
+              "Solar:GeoTagged Solar Power Plants V3"
+            ] || 0
+          ).toFixed(3)}{" "}
+          KW
+        </div>
+      </div>
+
+      {/* SOLAR HIGH MAST */}
+      <div style={cardStyle}>
+        <div style={labelStyle}>Solar High Mast</div>
+
+        <div style={valueStyle}>
+          {summaryData?.[
+            "Solar:Solar High Mast 2024"
+          ] || 0}
+        </div>
+      </div>
+
+      <div style={cardStyle}>
+        <div style={labelStyle}>Capacity</div>
+
+        <div style={valueStyle}>
+          {Number(
+            CapacityData?.[
+              "Solar:Solar High Mast 2024"
+            ] || 0
+          ).toFixed(3)}{" "}
+          KW
+        </div>
+      </div>
+
+      {/* ON GRID */}
+      <div style={cardStyle}>
+        <div style={labelStyle}>On Grid Solar</div>
+
+        <div style={valueStyle}>
+          {summaryData?.[
+            "Solar:On Grid Solar Power Plant 2024"
+          ] || 0}
+        </div>
+      </div>
+
+      <div style={cardStyle}>
+        <div style={labelStyle}>Capacity</div>
+
+        <div style={valueStyle}>
+          {Number(
+            CapacityData?.[
+              "Solar:On Grid Solar Power Plant 2024"
+            ] || 0
+          ).toFixed(3)}{" "}
+          KW
+        </div>
+      </div>
+
+      {/* OFF GRID */}
+      <div style={cardStyle}>
+        <div style={labelStyle}>Off Grid Solar</div>
+
+        <div style={valueStyle}>
+          {summaryData?.[
+            "Solar:Offgrid solar plant"
+          ] || 0}
+        </div>
+      </div>
+
+      <div style={cardStyle}>
+        <div style={labelStyle}>Capacity</div>
+
+        <div style={valueStyle}>
+          {Number(
+            CapacityData?.[
+              "Solar:Offgrid solar plant"
+            ] || 0
+          ).toFixed(3)}{" "}
+          KW
+        </div>
+      </div>
+
+      {/* STREET LIGHT */}
+      <div style={cardStyle}>
+        <div style={labelStyle}>Solar Street Light</div>
+
+        <div style={valueStyle}>
+          {summaryData?.[
+            "Solar:Smart Solar Street Light 2024"
+          ] || 0}
+        </div>
+      </div>
+
+      <div style={cardStyle}>
+        <div style={labelStyle}>Capacity</div>
+
+        <div style={valueStyle}>
+          {Number(
+            CapacityData?.[
+              "Solar:Smart Solar Street Light 2024"
+            ] || 0
+          ).toFixed(3)}{" "}
+          KW
+        </div>
+      </div>
+
     </div>
   </div>
-
-  <div style={cardStyle}>
-    <div style={labelStyle}>Capacity</div>
-    <div style={valueStyle}>
-      {Number(CapacityData?.["Solar:UPNEDA"] || 0).toFixed(3)} KW
-    </div>
-  </div>
-<div style={cardStyle}>
-    <div style={labelStyle}>Airport Panel</div>
-    <div style={valueStyle}>
-      {summaryData?.["Solar:Solar"] || 0}
-    </div>
-  </div>
-
-  <div style={cardStyle}>
-    <div style={labelStyle}>Area</div>
-    <div style={valueStyle}>
-      {(CapacityData?.["Solar:Solar"] || 0).toFixed(3)} sqr. mt.
-    </div>
-  </div>
-  {/* BIO ENERGY */}
-  <div style={cardStyle}>
-    <div style={labelStyle}>Bio Energy</div>
-    <div style={valueStyle}>
-      {summaryData?.["Solar:BIO ENERGY PROJECTS 2024"] || 0}
-    </div>
-  </div>
-
-  <div style={cardStyle}>
-    <div style={labelStyle}>Capacity</div>
-    <div style={valueStyle}>
-      {(CapacityData?.["Solar:BIO ENERGY PROJECTS 2024"] || 0).toFixed(3)} KW
-    </div>
-  </div>
-
-  {/* SOLAR */}
-  <div style={cardStyle}>
-    <div style={labelStyle}>Solar Power Plants</div>
-    <div style={valueStyle}>
-      {summaryData?.["Solar:GeoTagged Solar Power Plants V3"] || 0}
-    </div>
-  </div>
-
-  <div style={cardStyle}>
-    <div style={labelStyle}>Capacity</div>
-    <div style={valueStyle}>
-      {(CapacityData?.["Solar:GeoTagged Solar Power Plants V3"] || 0).toFixed(3)} KW
-    </div>
-  </div>
-
-{/* SOLAR High Mast 2024 */}
-  <div style={cardStyle}>
-    <div style={labelStyle}>Solar High Mast</div>
-    <div style={valueStyle}>
-      {summaryData?.["Solar:Solar High Mast 2024"] || 0}
-    </div>
-  </div>
-
-  <div style={cardStyle}>
-    <div style={labelStyle}>Capacity</div>
-    <div style={valueStyle}>
-      {(CapacityData?.["Solar:Solar High Mast 2024"] || 0).toFixed(3)} KW
-    </div>
-  </div>
-
-  {/* ON GRID */}
-  <div style={cardStyle}>
-    <div style={labelStyle}>On Grid Solar</div>
-    <div style={valueStyle}>
-      {summaryData?.["Solar:On Grid Solar Power Plant 2024"] || 0}
-    </div>
-  </div>
-
-  <div style={cardStyle}>
-    <div style={labelStyle}>Capacity</div>
-    <div style={valueStyle}>
-      {(CapacityData?.["Solar:On Grid Solar Power Plant 2024"] || 0).toFixed(3)} KW
-    </div>
-  </div>
-
- {/* Offgrid solar plant */}
-  <div style={cardStyle}>
-    <div style={labelStyle}>Off Grid Solar</div>
-    <div style={valueStyle}>
-      {summaryData?.["Solar:Offgrid solar plant"] || 0}
-    </div>
-  </div>
-
-  <div style={cardStyle}>
-    <div style={labelStyle}>Capacity</div>
-    <div style={valueStyle}>
-      {(CapacityData?.["Solar:Offgrid solar plant"] || 0).toFixed(3)} KW
-    </div>
-  </div>
-
-{/* SMART SOLAR STREET LIGHT 2024 */}
-   <div style={cardStyle}>
-    <div style={labelStyle}>Solar Street Light</div>
-    <div style={valueStyle}>
-      {summaryData?.["Solar:Smart Solar Street Light 2024"] || 0}
-    </div>
-  </div>
-
-  <div style={cardStyle}>
-    <div style={labelStyle}>Capacity</div>
-    <div style={valueStyle}>
-      {(CapacityData?.["Solar:Smart Solar Street Light 2024"] || 0).toFixed(3)} KW
-    </div>
-  </div> 
-
-</div>
-
-
-
-</div>
 )}
 
 <hr/>
